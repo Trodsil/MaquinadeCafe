@@ -30,7 +30,12 @@ public class Controller {
                 "3.Crear nuevo café"
         );
         switch (opcion){
-
+            case 1:
+                maquinacafe.pedirCafe();
+            case 2:
+            case 3:
+            default:
+                System.out.println("Valor no válido");
         }
     }
 }
