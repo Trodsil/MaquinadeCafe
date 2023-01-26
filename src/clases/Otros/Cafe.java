@@ -1,6 +1,6 @@
-package clases.otros;
+package clases.Otros;
 
-public class Cafe {
+public class Cafe{
     private String nombre;
     private int gCafe;
     private int gLeche;
