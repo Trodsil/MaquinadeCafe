@@ -1,5 +1,8 @@
 package clases.Otros;
 
+import org.w3c.dom.ls.LSOutput;
+
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,225 +24,180 @@ public class MaquinaCafe {
         this.gCacao = gCacao;
         this.mlAgua = mlAgua;
     }
-    //FÚNCIONES
-    public void menuInicio(){
-
+    public void rellenarMaquina(){
+        System.out.println("¿Qué desea rellenar?\n" +
+                "============================\n" +
+                "1:Vasos(ud)\n" +
+                "2:Cafe(g)\n" +
+                "3:Leche(g)\n" +
+                "4:Cacao(g)\n" +
+                "5:Agua(ml)\n" +
+                "0:Salir\n"+
+                "============================\n");
 
         Integer opcion=null;
-        while (opcion==null){
-            Scanner opcioninicio=new Scanner(System.in);
-            System.out.println("Bienvenido a la máquina de café\n" +
-                    "=====================\n"+
-                    "1.Pedir Café\n" +
-                    "2.Rellenar Máquina\n" +
-                    "3.Crear Nuevo Café\n");
-            opcion=opcioninicio.nextInt();
-            switch (opcion){
-                case 1:
-                    pedirCafe();
-                    break;
-                case 2:
-                    rellenarMaquinamenu();
-                    break;
-                case 3:
-                    crearCafe();
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Valor no válido");
-                    opcion=null;
-            }
-        }
-    }
-    public void pedirCafe(){
-        Integer opcion = null;
-        while(opcion==null){
-            Scanner opcion_in=new Scanner(System.in);
-
-            System.out.println("Que desea tomar");
-
-
-            for (int i=0;i<listaCafes.size();i++) {
-                System.out.println((i + 1) + "." + listaCafes.get(i).getNombre());
-            }
-            System.out.println("0.Salir");
+        while (opcion==null) {
+            Scanner opcion_valor=new Scanner(System.in);
             try{
-                opcion=opcion_in.nextInt();
+                opcion=opcion_valor.nextInt();
             }catch (Exception err){
-                System.out.println("Valor no válido");
+                System.out.println("Prueba con otro valor");
             }
-
-            if(opcion==0){
-                menuInicio();
-            }else if(opcion > 0&&opcion <= listaCafes.size()){
-                hacerCafe(opcion);
-                opcion=null;
-            }else{
-                System.out.println("Valor no válido");
-                opcion=null;
-            }
-        }
-
-
-    }
-    public void hacerCafe(Integer opcion){
-        Cafe cafe_escogido=listaCafes.get(opcion-1);
-        boolean boleano=true;
-        if (this.vasos - 1 < 0) {
-            boleano=false;
-            System.out.println("No quedan vasos\n" +
-                    "Se le enviara al menú principal\n");
-            menuInicio();
-
-        }else{
-            this.vasos--;
-        }
-
-        if(this.gCafe-cafe_escogido.getgCafe()<0){
-            boleano=false;
-            System.out.println("No queda café para preparar el café\n" +
-                    "Se le enviara al menú principal\n");
-            menuInicio();
-        }else {
-            this.gCafe-=cafe_escogido.getgCafe();
-        }
-        this.gCafe-=cafe_escogido.getgCafe();
-        if(this.gLeche-cafe_escogido.getgLeche()<0){
-            boleano=false;
-            System.out.println("No queda leche para preparar el café\n" +
-                    "Se le enviara al menú principal\n");
-            menuInicio();
-        }else {
-            this.gLeche-=cafe_escogido.getgLeche();
-        }
-        this.gLeche-=cafe_escogido.getgLeche();
-        if(this.gCacao-cafe_escogido.getgLeche()<0){
-            System.out.println("No queda cacao para preparar el café\n" +
-                    "Se le enviara al menú principal\n");
-            menuInicio();
-            boleano=false;
-        }else {
-            this.gCacao-=cafe_escogido.getgLeche();
-        }
-        this.gCacao-=cafe_escogido.getgCacao();
-        if(this.mlAgua-cafe_escogido.getMlAgua()<0){
-            System.out.println("No queda agua para preparar el café\n" +
-                    "Se le enviara al menú principal\n");
-            menuInicio();
-            boleano=false;
-        }else {
-            this.mlAgua-=cafe_escogido.getMlAgua();
-        }
-        this.mlAgua-=cafe_escogido.getMlAgua();
-        if(boleano){
-            System.out.println("\nPreparando café...\n" +
-                    "Café preparado con éxito\n");
-        }
-    }
-    public void rellenarMaquinamenu(){
-        boolean boleano=true;
-        while (boleano){
-            Scanner opcionRellenar=new Scanner(System.in);
-            System.out.println("Que desea rellenar\n" +
-                    "1.Vasos\n" +
-                    "2.Granos de Café(g)\n" +
-                    "3.Leche(g)\n" +
-                    "4.Cacao(g)\n" +
-                    "5.Agua(ml)\n" +
-                    "0.Salir");
-
-            switch (opcionRellenar.nextInt()){
-
+            Scanner valor;
+            switch (opcion){
                 case 0:
-                    boleano=false;
                     break;
                 case 1:
-                    rellenar("Cuantos vasos desea reponer","Vasos repuestos",this.vasos,"Vasos");
+                    System.out.println("¿Cuanto desea rellenar?"+
+                            "============================\n");
+                    valor=new Scanner(System.in);
+                    Integer valor_vasos;
+                    try {
+                        valor_vasos=valor.nextInt();
+                        if((this.vasos+=valor_vasos)>1000){
+                            System.out.println("No puede sobrepasar el máximo de la máquina");
+                        }else{
+                            this.vasos+=valor_vasos;
+                            System.out.println("Vasos añadidos: "+valor_vasos+"\nVasos totales: "+this.vasos+"\n"+"============================\n");
+                        }
+
+                    }catch (Exception err){
+                        System.out.println("Prueba con otro valor");
+                    }
+                    rellenarMaquina();
                     break;
                 case 2:
-                    rellenar("Cuantos gramos de grano de café desea reponer","Granos de café repuestos",this.gCafe,"Granos de café");
+                    System.out.println("¿Cuanto desea rellenar?"+
+                            "============================\n");
+                    valor=new Scanner(System.in);
+                    Integer valor_cafe;
+                    try {
+                        valor_cafe=valor.nextInt();
+                        if((this.gCafe+=valor_cafe)>1000){
+                            System.out.println("No puede sobrepasar el máximo de la máquina");
+                        }else{
+                            this.gCafe+=valor_cafe;
+                            System.out.println("Vasos añadidos: "+valor_cafe+"\nVasos totales: "+this.gCafe+"\n"+"============================\n");
+                        }
+
+                    }catch (Exception err){
+                        System.out.println("Prueba con otro valor");
+                    }
+                    rellenarMaquina();
                     break;
                 case 3:
-                    rellenar("Cuantos gramos de leche desea reponer","Gramos de Leche repuestos",this.gLeche,"Leche");
+                    System.out.println("¿Cuanto desea rellenar?"+
+                            "============================\n");
+                    valor=new Scanner(System.in);
+                    Integer valor_leche;
+                    try {
+                        valor_leche=valor.nextInt();
+                        if((this.gLeche+=valor_leche)>1000){
+                            System.out.println("No puede sobrepasar el máximo de la máquina");
+                        }else{
+                            this.gLeche+=valor_leche;
+                            System.out.println("Vasos añadidos: "+valor_leche+"\nVasos totales: "+this.gLeche+"\n"+"============================\n");
+                        }
+
+                    }catch (Exception err){
+                        System.out.println("Prueba con otro valor");
+                    }
+                    rellenarMaquina();
                     break;
                 case 4:
-                    rellenar("Cuantos gramos de Cacao desea reponer","Gramos de Cacao repuestos",this.gCacao,"Cacao");
+                    System.out.println("¿Cuanto desea rellenar?"+
+                            "============================\n");
+                    valor=new Scanner(System.in);
+                    Integer valor_cacao;
+                    try {
+                        valor_cacao=valor.nextInt();
+                        if((this.gCacao+=valor_cacao)>1000){
+                            System.out.println("No puede sobrepasar el máximo de la máquina");
+                        }else{
+                            this.gCacao+=valor_cacao;
+                            System.out.println("Vasos añadidos: "+valor_cacao+"\nVasos totales: "+this.gCacao+"\n"+"============================\n");
+                        }
+
+                    }catch (Exception err){
+                        System.out.println("Prueba con otro valor");
+                    }
+                    rellenarMaquina();
                     break;
                 case 5:
-                    rellenar("Cuantos ml de Agua desea reponer","Ml de agua repuestos",this.mlAgua,"Agua");
+                    System.out.println("¿Cuanto desea rellenar?"+
+                            "============================\n");
+                    valor=new Scanner(System.in);
+                    Integer valor_agua;
+                    try {
+                        valor_agua=valor.nextInt();
+                        if((this.mlAgua+=valor_agua)>1000){
+                            System.out.println("No puede sobrepasar el máximo de la máquina");
+                        }else{
+                            this.mlAgua+=valor_agua;
+                            System.out.println("Vasos añadidos: "+valor_agua+"\nVasos totales: "+this.mlAgua+"\n"+"============================\n");
+                        }
+
+                    }catch (Exception err){
+                        System.out.println("Prueba con otro valor");
+                    }
+                    rellenarMaquina();
                     break;
                 default:
-                    System.out.println("Valor no válido");
+                    System.out.println("Opción no disponible");
+                    rellenarMaquina();
+                    break;
             }
         }
-
-
-
     }
 
-    public void rellenar(String texto_superior,String texto_posterior,int valor_modificar,String nombre_objeto_rellenar){
-
-        System.out.println(texto_superior);
-        Integer valor_sumar=null;
-        while (valor_sumar==null){
-            Scanner valor_agregar=new Scanner(System.in);
-            try{
-                valor_sumar=valor_agregar.nextInt();
-            }catch (Exception err){
-                System.out.println("Prueba con un número");
-            }
-        }
-
-        valor_modificar+=valor_sumar;
-        System.out.println(texto_posterior+" "+valor_sumar+"\n" +
-                "El total de "+nombre_objeto_rellenar+" es: "+valor_modificar);
-
-
-    }
     public void crearCafe(){
-        //nombre
-        System.out.println("¿Que nombre le desea poner al café?");
-        Scanner nombre_in=new Scanner(System.in);
-        String nombre=nombre_in.nextLine();
-
-        //gCafe
-        System.out.println("¿Cuántos gramos de café gasta?");
-        Integer cafe=null;
-        while (cafe==null){
-            Scanner cafe_in=new Scanner(System.in);
-            try {
-                cafe=cafe_in.nextInt();
-            }catch (Exception err){
-                System.out.println("Valor no válido");
-            }
-        }
-
-        //gLeche
-        System.out.println("¿Cuántos gramos de leche gasta?");
-        Integer leche=null;
-        while (leche==null){
-            Scanner leche_in=new Scanner(System.in);
-            try {
-                leche=leche_in.nextInt();
-            }catch (Exception err){
-                System.out.println("Valor no válido");
-            }
-        }
-        //gCacao
-        System.out.println("¿Cuántos gramos de cacao gasta?");
-        Integer cacao=null;
-        while (cacao==null){
-            Scanner cacao_in=new Scanner(System.in);
-            try {
-                cacao=cacao_in.nextInt();
-            }catch (Exception err){
-                System.out.println("Valor no válido");
-            }
-        }
-        this.listaCafes.add(new Cafe(nombre,cafe,leche,cacao));
-        System.out.println("Café: "+nombre+" creado con éxito");
-        menuInicio();
+        System.out.println("\n¿Qué nombre deseas poner?\n");
+        Scanner nombre=new Scanner(System.in);
+        String valor_nombre=nombre.nextLine();
+        System.out.println("\n¿Cuantos gramos de cafe gastará?\n");
+        Scanner cafe=new Scanner(System.in);
+        Integer valor_cafe=cafe.nextInt();
+        System.out.println("\n¿Cuantos gramos de leche gastará?\n");
+        Scanner leche=new Scanner(System.in);
+        Integer valor_leche=leche.nextInt();
+        System.out.println("\n¿Cuantos gramos de cacao gastará?\n");
+        Scanner cacao=new Scanner(System.in);
+        Integer valor_cacao=cacao.nextInt();
+        this.listaCafes.add(new Cafe(valor_nombre,valor_cafe,valor_leche,valor_cacao));
+        System.out.println("\nEl café "+valor_nombre+" ha sido creado con éxito\n");
     }
-
+    public void pedirCafe(){
+        System.out.println("¿Qué café desea pedir\n" +
+                "============================\n");
+        for (int i = 0; i<this.listaCafes.size();i++){
+            System.out.println((i+1)+":"+this.listaCafes.get(i).getNombre());
+        }
+        Scanner opcion=new Scanner(System.in);
+        Integer valor_opcion=opcion.nextInt();
+        if(valor_opcion<0||valor_opcion>this.listaCafes.size()){
+            System.out.println("Prueba con otro valor");
+        }else{
+            if(this.vasos--<=0){
+                System.out.println("No quedan vasos");
+            }else if(this.gCafe-this.listaCafes.get(valor_opcion-1).getgCafe()<=0){
+                System.out.println("No queda café");
+            }else if (this.gLeche-this.listaCafes.get(valor_opcion-1).getgLeche()<=0) {
+                System.out.println("No queda leche");
+            }else if (this.gCacao-this.listaCafes.get(valor_opcion-1).getgCacao()<=0) {
+                System.out.println("No queda cacao");
+            }else if (this.mlAgua-this.listaCafes.get(valor_opcion-1).getMlAgua()<=0) {
+                System.out.println("No queda agua");
+            }else{
+                this.vasos--;
+                this.gCafe-=this.listaCafes.get(valor_opcion-1).getgCafe();
+                this.gLeche-=this.listaCafes.get(valor_opcion-1).getgLeche();
+                this.gCacao-=this.listaCafes.get(valor_opcion-1).getgCacao();
+                this.mlAgua-=this.listaCafes.get(valor_opcion-1).getMlAgua();
+                System.out.println("Su café esta siendo preparado\n" +
+                        "Su café ha sido creado con exito\n");
+            }
+        }
+    }
 }
+
+

@@ -7,14 +7,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Controlador {
-    MaquinaCafe maquina_cafe=new MaquinaCafe("123456789B",new ArrayList<>(List.of(
-            new Cafe("Café Moka",10,10,10)
-    )),100,100,80,70,120 );
-
+    private MaquinaCafe maquina_cafe;
     public Controlador() {
-        maquina_cafe.menuInicio();
+        this.maquina_cafe=new MaquinaCafe("123456789B",new ArrayList<>(List.of(
+                new Cafe("Café Moka",10,10,10)
+        )),100,100,80,70,120 );
+        this.menuInicio();
     }
+    public void menuInicio(){
+        System.out.println("Bienvenido al menú de inicio\n" +
+                "============================\n" +
+                "1:Pedir café\n" +
+                "2:Rellenar máquina\n" +
+                "3:Crear café\n" +
+                "0:Cerrar\n" +
+                "============================\n");
+        Integer opcion=null;
+        while (opcion==null){
+            Scanner valor_opcion=new Scanner(System.in);
+            opcion=valor_opcion.nextInt();
+            switch (opcion){
+                case 0:
+                    break;
+                case 1:
+                    this.maquina_cafe.pedirCafe();
+                    menuInicio();
+                    break;
+                case 2:
+                    this.maquina_cafe.rellenarMaquina();
+                    menuInicio();
+                    break;
+                case 3:
+                    this.maquina_cafe.crearCafe();
+                    menuInicio();
+                    break;
+                default:
+                    System.out.println("Opción no disponible\n");
+                    menuInicio();
 
+
+            }
+
+        }
+
+    }
 
 }
