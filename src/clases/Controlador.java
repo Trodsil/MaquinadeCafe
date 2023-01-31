@@ -13,29 +13,8 @@ public class Controlador {
     )),100,100,80,70,120 );
 
     public Controlador() {
-        menuInicio();
+        maquina_cafe.menuInicio();
     }
-    public void menuInicio(){
 
-        boolean boleano=true;
-        while (boleano){
-            Scanner opcioninicio=new Scanner(System.in);
-            System.out.println("Bienvenido a la máquina de café\n" +
-                    "=====================\n"+
-                    "1.Pedir Café\n" +
-                    "2.Rellenar Máquina\n" +
-                    "3.Crear Nuevo Café\n");
-            switch (opcioninicio.nextInt()){
-                case 2:
-                    maquina_cafe.rellenarMaquinamenu();
-                    break;
-                case 0:
-                    boleano=false;
-                    break;
-                default:
-                    System.out.println("Valor no válido");
-            }
-        }
-    }
 
 }
