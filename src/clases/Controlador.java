@@ -26,8 +26,18 @@ public class Controlador {
                 "============================\n");
         Integer opcion=null;
         while (opcion==null){
-            Scanner valor_opcion=new Scanner(System.in);
-            opcion=valor_opcion.nextInt();
+
+            while (opcion==null){
+                Scanner valor_opcion=new Scanner(System.in);
+                try{
+                    opcion=valor_opcion.nextInt();
+                }catch (Exception err){
+                    System.out.println("Prueba con otro valor");
+                    opcion=null;
+                }
+            }
+
+
             switch (opcion){
                 case 0:
                     break;
